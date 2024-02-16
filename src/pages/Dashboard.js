@@ -5,9 +5,15 @@ import { useLoaderData } from "react-router";
 
 //component
 import AddBudgetForm from "../components/AddBudgetForm";
+import AddExpenseForm from "../components/AddExpenseForm";
 
 //helper functions import
-import { createNewBudget, fetchData, waait } from "../helpers";
+import {
+  createNewBudget,
+  createNewExpense,
+  fetchData,
+  waait,
+} from "../helpers";
 import Intro from "../components/Intro";
 
 //library
@@ -47,6 +53,19 @@ export async function dashboardAction({ request }) {
       throw new Error("There was a problem with creating budget!");
     }
   }
+
+  if (_action === "createExpense") {
+    try {
+      createNewExpense({
+        name: values.newExpense,
+        amount: values.newExpenseAmount,
+        budgetId: values.expenseBudget,
+      });
+      return toast.success(`Expense ${values.newExpense} added!`);
+    } catch {
+      throw new Error("There was a problem with adding expense!");
+    }
+  }
 }
 
 const Dashboard = () => {
@@ -60,11 +79,20 @@ const Dashboard = () => {
               Welcome back, <span className="accent">{userName}</span>
             </h1>
             <div className="grid-sm">
-              <div className="grid-lg">
-                <div className="flex-lg">
+              {budgets && budgets.length > 0 ? (
+                <div className="grid-lg">
+                  <div className="flex-lg">
+                    <AddBudgetForm />
+                    <AddExpenseForm budgets={budgets} />
+                  </div>
+                </div>
+              ) : (
+                <div className="gird-sm">
+                  <p>Personal budgeting is the secret of finicial freedom.</p>
+                  <p>Create a budget to get started!</p>
                   <AddBudgetForm />
                 </div>
-              </div>
+              )}
             </div>
           </div>
         ) : (
