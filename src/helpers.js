@@ -5,7 +5,7 @@ export const waait = () =>
 //color
 function generateColor() {
   const existingBudgetsLength = fetchData("budgets")?.length ?? 0;
-  return `${existingBudgetsLength * 34}% 60% 35%`;
+  return `${existingBudgetsLength * 34} 60% 35%`;
 }
 
 //fetch item
@@ -51,3 +51,31 @@ export function createNewExpense({ name, amount, budgetId }) {
     JSON.stringify([...existingExpenses, newItem])
   );
 }
+
+// spent budgete amount
+export function totalSpent(budgetId) {
+  const expenses = fetchData("expenses") ?? [];
+  const totalSpent = expenses.reduce((acc, expense) => {
+    if (expense.budgetId !== budgetId) return acc;
+    return (acc += expense.amount);
+  }, 0);
+  return totalSpent;
+}
+
+//FORMATTING
+
+//format percentage
+export const formatPercentage = (amt) => {
+  return amt.toLocaleString(undefined, {
+    style: "percent",
+    minimumFractionDigits: 0,
+  });
+};
+
+//format currency
+export const formatCurrency = (amt) => {
+  return amt.toLocaleString(undefined, {
+    style: "currency",
+    currency: "USD",
+  });
+};
