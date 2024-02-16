@@ -20,6 +20,7 @@ import Intro from "../components/Intro";
 
 //library
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 //loader
 export function dashboardLoader() {
@@ -75,45 +76,52 @@ const Dashboard = () => {
   const { userName, budgets, expenses } = useLoaderData();
   return (
     <div>
-      <main>
-        {userName ? (
-          <div className="dashboard">
-            <h1>
-              Welcome back, <span className="accent">{userName}</span>
-            </h1>
-            <div className="grid-sm">
-              {budgets && budgets.length > 0 ? (
-                <div className="grid-lg">
-                  <div className="flex-lg">
-                    <AddBudgetForm />
-                    <AddExpenseForm budgets={budgets} />
-                  </div>
-                  <h2>Existing Budgets</h2>
-                  <div className="budgets">
-                    {budgets.map((budget) => (
-                      <BudgetItem key={budget.id} budget={budget} />
-                    ))}
-                  </div>
-                  {expenses && expenses.length > 0 && (
-                    <>
-                      <h2>Recent Expenses</h2>
-                      <Table expenses={expenses} />
-                    </>
-                  )}
-                </div>
-              ) : (
-                <div className="gird-sm">
-                  <p>Personal budgeting is the secret of finicial freedom.</p>
-                  <p>Create a budget to get started!</p>
+      {userName ? (
+        <div className="dashboard">
+          <h1>
+            Welcome back, <span className="accent">{userName}</span>
+          </h1>
+          <div className="grid-sm">
+            {budgets && budgets.length > 0 ? (
+              <div className="grid-lg">
+                <div className="flex-lg">
                   <AddBudgetForm />
+                  <AddExpenseForm budgets={budgets} />
                 </div>
-              )}
-            </div>
+                <h2>Existing Budgets</h2>
+                <div className="budgets">
+                  {budgets.map((budget) => (
+                    <BudgetItem key={budget.id} budget={budget} />
+                  ))}
+                </div>
+                {expenses && expenses.length > 0 && (
+                  <>
+                    <h2>Recent Expenses</h2>
+                    <Table
+                      expenses={expenses
+                        .sort((a, b) => b.createdAt - a.createdAt)
+                        .slice(0, 8)}
+                    />
+                    {expenses.length > 8 && (
+                      <Link to="/expenses" className="btn btn--dark">
+                        See all expenses
+                      </Link>
+                    )}
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="gird-sm">
+                <p>Personal budgeting is the secret of finicial freedom.</p>
+                <p>Create a budget to get started!</p>
+                <AddBudgetForm />
+              </div>
+            )}
           </div>
-        ) : (
-          <Intro />
-        )}
-      </main>
+        </div>
+      ) : (
+        <Intro />
+      )}
     </div>
   );
 };

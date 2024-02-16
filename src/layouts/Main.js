@@ -19,7 +19,9 @@ const Main = () => {
   return (
     <div className="layout">
       <Navbar userName={userName} />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <img src={wave} />
     </div>
   );
