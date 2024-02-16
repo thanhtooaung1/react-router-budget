@@ -7,6 +7,7 @@ import { useLoaderData } from "react-router";
 import AddBudgetForm from "../components/AddBudgetForm";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem from "../components/BudgetItem";
+import Table from "../components/Table";
 
 //helper functions import
 import {
@@ -24,7 +25,8 @@ import { toast } from "react-toastify";
 export function dashboardLoader() {
   const userName = fetchData("userName");
   const budgets = fetchData("budgets");
-  return { userName, budgets };
+  const expenses = fetchData("expenses");
+  return { userName, budgets, expenses };
 }
 
 //action
@@ -70,7 +72,7 @@ export async function dashboardAction({ request }) {
 }
 
 const Dashboard = () => {
-  const { userName, budgets } = useLoaderData();
+  const { userName, budgets, expenses } = useLoaderData();
   return (
     <div>
       <main>
@@ -92,6 +94,12 @@ const Dashboard = () => {
                       <BudgetItem key={budget.id} budget={budget} />
                     ))}
                   </div>
+                  {expenses && expenses.length > 0 && (
+                    <>
+                      <h2>Recent Expenses</h2>
+                      <Table expenses={expenses} />
+                    </>
+                  )}
                 </div>
               ) : (
                 <div className="gird-sm">
