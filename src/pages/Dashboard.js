@@ -33,8 +33,6 @@ export function dashboardLoader() {
 
 //action
 export async function dashboardAction({ request }) {
-  await waait();
-
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
 
@@ -74,7 +72,7 @@ export async function dashboardAction({ request }) {
 
   if (_action === "deleteExpense") {
     try {
-      await deleteItem({ key: "expenses", id: values.expenseId });
+      deleteItem({ key: "expenses", id: values.expenseId });
       return toast.success(`Expense is deleted!`);
     } catch {
       throw new Error("There was a problem with deleting expense!");
@@ -84,8 +82,9 @@ export async function dashboardAction({ request }) {
 
 const Dashboard = () => {
   const { userName, budgets, expenses } = useLoaderData();
+  console.log(userName);
   return (
-    <div>
+    <>
       {userName ? (
         <div className="dashboard">
           <h1>
@@ -123,7 +122,9 @@ const Dashboard = () => {
             ) : (
               <div className="gird-sm">
                 <p>Personal budgeting is the secret of finicial freedom.</p>
-                <p>Create a budget to get started!</p>
+                <p style={{ marginBottom: 10 }}>
+                  Create a budget to get started!
+                </p>
                 <AddBudgetForm />
               </div>
             )}
@@ -132,7 +133,7 @@ const Dashboard = () => {
       ) : (
         <Intro />
       )}
-    </div>
+    </>
   );
 };
 

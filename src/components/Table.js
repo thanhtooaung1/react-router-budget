@@ -15,11 +15,12 @@ const Table = ({ expenses, showBudget = true }) => {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense) => (
-            <tr>
-              <ExpenseItem expense={expense} showBudget={showBudget} />
-            </tr>
-          ))}
+          {expenses &&
+            expenses.map((expense) => (
+              <tr key={expense.id}>
+                <ExpenseItem expense={expense} showBudget={showBudget} />
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

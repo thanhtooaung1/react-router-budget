@@ -24,10 +24,10 @@ export function deleteItem({ key, id }) {
 }
 
 //get related item
-export function getAllRelatedItems({ category, key, value }) {
-  const data = fetchData(category);
+export const getAllRelatedItems = ({ category, key, value }) => {
+  const data = fetchData(category) ?? [];
   return data.filter((item) => item[key] === value);
-}
+};
 
 //create budget
 export function createNewBudget({ name, amount }) {

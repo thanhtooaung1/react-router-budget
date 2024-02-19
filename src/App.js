@@ -4,8 +4,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // layouts
 import Main, { mainLoader } from "./layouts/Main";
 
-//logout action
+// library
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// action
 import { logoutAction } from "./actions/logout";
+import { deleteBudget } from "./actions/deleteBudget";
 
 // routes
 import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
@@ -41,6 +46,12 @@ const router = createBrowserRouter([
         element: <BudgetPage />,
         loader: budgetLoader,
         action: budgetAction,
+        children: [
+          {
+            path: "delete",
+            action: deleteBudget,
+          },
+        ],
       },
       {
         path: "logout",
@@ -54,6 +65,7 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={router}></RouterProvider>
+      <ToastContainer />
     </div>
   );
 }

@@ -25,7 +25,7 @@ const Navbar = ({ userName }) => {
           }}
         >
           <button className="btn btn--warning">
-            <span>Logout</span>
+            <span>Delete Account</span>
             <TrashIcon width={20} />
           </button>
         </Form>

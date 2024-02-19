@@ -24,30 +24,34 @@ const ExpenseItem = ({ expense, showBudget }) => {
 
   return (
     <>
-      <td>{expense.name}</td>
-      <td>{formatCurrency(expense.amount)}</td>
-      <td>{formatDateToLocalString(expense.createdAt)}</td>
-      {showBudget ? (
-        <td>
-          <Link
-            to={`/budget/${budget.id}`}
-            style={{
-              "--accent": budget.color,
-            }}
-          >
-            {budget.name}
-          </Link>
-        </td>
-      ) : null}
-      <td>
-        <fetcher.Form method="post">
-          <input type="hidden" name="_action" value="deleteExpense" />
-          <input type="hidden" name="expenseId" value={expense.id} />
-          <button className="btn btn--warning">
-            <TrashIcon width={20} />
-          </button>
-        </fetcher.Form>
-      </td>
+      {budget && (
+        <>
+          <td>{expense.name}</td>
+          <td>{formatCurrency(expense.amount)}</td>
+          <td>{formatDateToLocalString(expense.createdAt)}</td>
+          {showBudget && (
+            <td>
+              <Link
+                to={`/budget/${budget.id}`}
+                style={{
+                  "--accent": budget.color,
+                }}
+              >
+                {budget.name}
+              </Link>
+            </td>
+          )}
+          <td>
+            <fetcher.Form method="post">
+              <input type="hidden" name="_action" value="deleteExpense" />
+              <input type="hidden" name="expenseId" value={expense.id} />
+              <button className="btn btn--warning">
+                <TrashIcon width={20} />
+              </button>
+            </fetcher.Form>
+          </td>
+        </>
+      )}
     </>
   );
 };
