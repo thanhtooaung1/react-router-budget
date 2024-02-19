@@ -13,9 +13,20 @@ export function fetchData(key) {
   return JSON.parse(localStorage.getItem(key));
 }
 
-//delete item
-export function deleteItem({ key }) {
-  localStorage.removeItem(key);
+// delete item
+export function deleteItem({ key, id }) {
+  if (id) {
+    const data = fetchData(key);
+    const newData = data.filter((item) => item.id !== id);
+    return localStorage.setItem(key, JSON.stringify(newData));
+  }
+  return localStorage.removeItem(key);
+}
+
+//get related item
+export function getAllRelatedItems({ category, key, value }) {
+  const data = fetchData(category);
+  return data.filter((item) => item[key] === value);
 }
 
 //create budget

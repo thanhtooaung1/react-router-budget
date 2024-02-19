@@ -13,6 +13,7 @@ import Table from "../components/Table";
 import {
   createNewBudget,
   createNewExpense,
+  deleteItem,
   fetchData,
   waait,
 } from "../helpers";
@@ -68,6 +69,15 @@ export async function dashboardAction({ request }) {
       return toast.success(`Expense ${values.newExpense} added!`);
     } catch {
       throw new Error("There was a problem with adding expense!");
+    }
+  }
+
+  if (_action === "deleteExpense") {
+    try {
+      await deleteItem({ key: "expenses", id: values.expenseId });
+      return toast.success(`Expense is deleted!`);
+    } catch {
+      throw new Error("There was a problem with deleting expense!");
     }
   }
 }
