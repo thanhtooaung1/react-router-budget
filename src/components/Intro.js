@@ -1,7 +1,7 @@
 import React from "react";
 
 // rrd imports
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 
 // library
 import { UserPlusIcon } from "@heroicons/react/24/solid";
@@ -10,6 +10,8 @@ import { UserPlusIcon } from "@heroicons/react/24/solid";
 import illustration from "../assets/illustration.jpg";
 
 const Intro = () => {
+  const errors = useActionData();
+
   return (
     <div className="intro">
       <div>
@@ -28,6 +30,9 @@ const Intro = () => {
             aria-label="Your name"
             autoComplete="given-name"
           />
+          {errors?.userName && (
+            <span className="text-danger">{errors.userName}</span>
+          )}
           <input type="hidden" name="_action" value="createUser" />
           <button className="btn btn--dark" type="submit">
             <span>Creat user</span>

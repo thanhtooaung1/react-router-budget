@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from "react";
 
 // rrd imports
-import { Form, useFetcher } from "react-router-dom";
+import { Form, useActionData, useFetcher } from "react-router-dom";
 
 // library
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
 const AddBudgetForm = () => {
   const fetcher = useFetcher();
+  const errors = fetcher.data;
   const isSubmitting = fetcher.state === "submitting";
 
   const formRef = useRef();
@@ -15,8 +16,10 @@ const AddBudgetForm = () => {
 
   useEffect(() => {
     if (!isSubmitting) {
-      formRef.current.reset();
-      nameRef.current.focus();
+      if (!errors) {
+        formRef.current.reset();
+        nameRef.current.focus();
+      }
     }
   }, [isSubmitting]);
 
@@ -34,6 +37,9 @@ const AddBudgetForm = () => {
             required
             ref={nameRef}
           />
+          {errors?.newBudget && (
+            <span className="text-danger">{errors?.newBudget}</span>
+          )}
         </div>
         <div className="grid-xs">
           <label htmlFor="newBudgetAmount">Amount</label>
@@ -45,6 +51,9 @@ const AddBudgetForm = () => {
             placeholder="e.g, $200"
             required
           />
+          {errors?.newBudgetAmount && (
+            <span className="text-danger">{errors?.newBudgetAmount}</span>
+          )}
         </div>
         <input type="hidden" name="_action" value="createBudget" />
         <button className="btn btn--dark" disabled={isSubmitting}>

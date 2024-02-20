@@ -42,7 +42,7 @@ const ExpensesPage = () => {
       {expenses && expenses.length > 0 ? (
         <div className="grid-md">
           <h3>
-            Recent Expeneses <small>(total {expenses.length})</small>
+            Recent Expenses <small>(total {expenses.length})</small>
           </h3>
           <Table expenses={expenses} />
         </div>
